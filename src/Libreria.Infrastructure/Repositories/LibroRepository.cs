@@ -26,6 +26,7 @@ namespace Libreria.Infrastructure.Repositories
                     g.genero,
                     l.id_autor,
                     l.id_genero,
+                    l.anio_publicacion,
                     l.estatus
                 FROM tb_libros l
                 INNER JOIN tb_autores a ON l.id_autor = a.id
@@ -50,6 +51,7 @@ namespace Libreria.Infrastructure.Repositories
                     g.genero,
                     l.id_autor,
                     l.id_genero,
+                    l.anio_publicacion,
                     l.estatus
                 FROM tb_libros l
                 INNER JOIN tb_autores a ON l.id_autor = a.id
@@ -66,11 +68,22 @@ namespace Libreria.Infrastructure.Repositories
             return count > 0;
         }
 
+        public async Task<bool> ExisteLibroAsync(string titulo, int idAutor, int idGenero, string? idExcluir = null)
+        {
+            var sql = "SELECT COUNT(1) FROM tb_libros WHERE titulo = @Titulo AND id_autor = @IdAutor AND id_genero = @IdGenero";
+            if (!string.IsNullOrWhiteSpace(idExcluir))
+            {
+                sql += " AND id_libro != @IdExcluir";
+            }
+            var count = await _connection.ExecuteScalarAsync<int>(sql, new { Titulo = titulo, IdAutor = idAutor, IdGenero = idGenero, IdExcluir = idExcluir });
+            return count > 0;
+        }
+
         public async Task<int> InsertarAsync(Libro libro)
         {
             var sql = @"
-                INSERT INTO tb_libros (id_libro, titulo, id_autor, id_genero, estatus, fecha_registro)
-                VALUES (@IdLibro, @Titulo, @IdAutor, @IdGenero, @Estatus, @FechaRegistro)";
+                INSERT INTO tb_libros (id_libro, titulo, id_autor, id_genero, anio_publicacion, estatus, fecha_registro)
+                VALUES (@IdLibro, @Titulo, @IdAutor, @IdGenero, @AnioPublicacion, @Estatus, @FechaRegistro)";
 
             return await _connection.ExecuteAsync(sql, libro);
         }
@@ -82,6 +95,7 @@ namespace Libreria.Infrastructure.Repositories
                 SET titulo = @Titulo,
                     id_autor = @IdAutor,
                     id_genero = @IdGenero,
+                    anio_publicacion = @AnioPublicacion,
                     estatus = @Estatus
                 WHERE id_libro = @IdLibro";
 

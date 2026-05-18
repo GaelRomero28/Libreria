@@ -27,5 +27,11 @@ namespace Libreria.Application.DTOs
         [Required(ErrorMessage = "El ID del género es obligatorio.")]
         [Range(1, int.MaxValue, ErrorMessage = "El ID del género es inválido.")]
         public int IdGenero { get; set; }
+
+        /// <summary>
+        /// Año de publicación del libro.
+        /// </summary>
+        [Required(ErrorMessage = "El año de publicación es obligatorio.")]
+        public int AnioPublicacion { get; set; }
     }
 }

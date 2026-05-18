@@ -29,6 +29,12 @@ namespace Libreria.Application.DTOs
         public int IdGenero { get; set; }
 
         /// <summary>
+        /// Nuevo año de publicación del libro.
+        /// </summary>
+        [Required(ErrorMessage = "El año de publicación es obligatorio.")]
+        public int AnioPublicacion { get; set; }
+
+        /// <summary>
         /// Estatus del libro (1 = Activo, 0 = Inactivo).
         /// </summary>
         [Required(ErrorMessage = "El estatus es obligatorio.")]

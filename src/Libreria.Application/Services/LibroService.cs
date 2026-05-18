@@ -31,6 +31,7 @@ namespace Libreria.Application.Services
                 Genero = r.genero,
                 IdAutor = r.id_autor,
                 IdGenero = r.id_genero,
+                AnioPublicacion = r.anio_publicacion,
                 Estatus = r.estatus
             });
 
@@ -54,6 +55,7 @@ namespace Libreria.Application.Services
                 Genero = result.genero,
                 IdAutor = result.id_autor,
                 IdGenero = result.id_genero,
+                AnioPublicacion = result.anio_publicacion,
                 Estatus = result.estatus
             };
 
@@ -62,6 +64,12 @@ namespace Libreria.Application.Services
 
         public async Task<Result<string>> CrearAsync(LibroCreateDTO dto)
         {
+            var duplicado = await _libroRepository.ExisteLibroAsync(dto.Titulo, dto.IdAutor, dto.IdGenero);
+            if (duplicado)
+            {
+                return Result<string>.Failure("Ya existe un libro registrado con este mismo título, autor y género.");
+            }
+
             string newId = await GenerarIdUnicoAsync();
 
             var libro = new Libro
@@ -69,7 +77,8 @@ namespace Libreria.Application.Services
                 IdLibro = newId,
                 Titulo = dto.Titulo,
                 IdAutor = dto.IdAutor,
-                IdGenero = dto.IdGenero
+                IdGenero = dto.IdGenero,
+                AnioPublicacion = dto.AnioPublicacion
             };
 
             var affectedRows = await _libroRepository.InsertarAsync(libro);
@@ -95,12 +104,19 @@ namespace Libreria.Application.Services
                 return Result.Failure("El libro a actualizar no existe.");
             }
 
+            var duplicado = await _libroRepository.ExisteLibroAsync(dto.Titulo, dto.IdAutor, dto.IdGenero, id);
+            if (duplicado)
+            {
+                return Result.Failure("Ya existe otro libro registrado con este mismo título, autor y género.");
+            }
+
             var libro = new Libro
             {
                 IdLibro = id,
                 Titulo = dto.Titulo,
                 IdAutor = dto.IdAutor,
                 IdGenero = dto.IdGenero,
+                AnioPublicacion = dto.AnioPublicacion,
                 Estatus = dto.Estatus
             };
 

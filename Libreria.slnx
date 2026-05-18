@@ -4,5 +4,6 @@
     <Project Path="src/Libreria.Application/Libreria.Application.csproj" />
     <Project Path="src/Libreria.Domain/Libreria.Domain.csproj" />
     <Project Path="src/Libreria.Infrastructure/Libreria.Infrastructure.csproj" />
+    <Project Path="tests/Libreria.Tests/Libreria.Tests.csproj" />
   </Folder>
 </Solution>

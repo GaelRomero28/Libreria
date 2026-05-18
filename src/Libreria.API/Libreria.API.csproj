@@ -4,10 +4,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.72" />
+    <PackageReference Include="Dapper" Version="2.1.79" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
@@ -16,6 +18,12 @@
     <Folder Include="bin\Debug\net8.0\" />
     <Folder Include="Controllers\" />
     <Folder Include="Middlewares\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Libreria.Application\Libreria.Application.csproj" />
+    <ProjectReference Include="..\Libreria.Infrastructure\Libreria.Infrastructure.csproj" />
+    <ProjectReference Include="..\Libreria.Domain\Libreria.Domain.csproj" />
   </ItemGroup>
 
 </Project>
